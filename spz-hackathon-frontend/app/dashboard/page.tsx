@@ -11,7 +11,7 @@ export default function DashboardPage() {
       />
 
       {/* ページの中身 */}
-      <div className="space-y-4">
+      <div>
         <p>ここにダッシュボードの内容を表示します。</p>
       </div>
     </>
