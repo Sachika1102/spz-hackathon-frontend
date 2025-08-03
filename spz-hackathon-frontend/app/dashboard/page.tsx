@@ -1,8 +1,19 @@
+// app/dashboard/page.tsx
+import PageHeader from "@/components/layout/PageHeader";
+
 export default function DashboardPage() {
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold text-blue-500">ダッシュボード</h1>
-      <p className="mt-2 text-gray-700">ここにコンテンツが入ります。</p>
-    </div>
+    <>
+      {/* ページごとのタイトル・サブタイトルを渡す */}
+      <PageHeader
+        title="ダッシュボード"
+        subtitle="あなたの開発活動とチーム貢献を分析しています"
+      />
+
+      {/* ページの中身 */}
+      <div className="space-y-4">
+        <p>ここにダッシュボードの内容を表示します。</p>
+      </div>
+    </>
   );
 }
