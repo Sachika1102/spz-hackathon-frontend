@@ -79,6 +79,9 @@ export default function Header() {
           <Link href="/team" className="hover:text-blue-600">
             チーム
           </Link>
+          <Link href="/sprint" className="hover:text-blue-600">
+            スプリント
+          </Link>
           <Link href="/profile" className="hover:text-blue-600">
             プロフィール
           </Link>
