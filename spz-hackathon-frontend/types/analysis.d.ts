@@ -9,7 +9,7 @@ export interface Stat {
   kind: "commits" | "features" | "bugs" | "reviews";
   title: string;
   value: number;
-  delta: number;
+  delta?: number | null;
 }
 
 // 単一のデータセット
