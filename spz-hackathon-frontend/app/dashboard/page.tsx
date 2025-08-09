@@ -40,6 +40,21 @@ export default function DashboardPage() {
   // clamp: 0..weeks.length-1 の範囲に収める（配列外アクセス防止）
   const w = Math.min(Math.max(selectedWeek, 0), weeks.length - 1);
 
+  const getUnit = (kind: Stat["kind"]): string => {
+    switch (kind) {
+      case "commits":
+        return "commits";
+      case "features":
+        return "features";
+      case "bugs":
+        return "fixes";
+      case "reviews":
+        return "reviews";
+      default:
+        return "";
+    }
+  };
+
   const renderCards = (stats: ReadonlyArray<Stat>) => (
     <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       {stats.map((s) => (
@@ -48,6 +63,7 @@ export default function DashboardPage() {
           title={s.title}
           value={s.value}
           delta={s.delta}
+          deltaUnit={getUnit(s.kind)}
         />
       ))}
     </div>
@@ -96,9 +112,6 @@ export default function DashboardPage() {
       {/* ---- チームタブ ---- */}
       {activeTab === "overview" && (
         <div className="mt-6 space-y-6">
-          {/* 4枚カード */}
-          {renderCards(teamStatsByWeek[w])}
-
           {/* グラフ + 傾向 */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <DashboardChart
@@ -112,6 +125,8 @@ export default function DashboardPage() {
               skillRatings={teamSkillRatingsByWeek[w]}
             />
           </div>
+          {/* 4枚カード */}
+          {renderCards(teamStatsByWeek[w])}
 
           {/* AI分析 + 今週の総評 */}
           <div className="grid gap-4 lg:grid-cols-2">
@@ -124,9 +139,6 @@ export default function DashboardPage() {
       {/* ---- 個人タブ ---- */}
       {activeTab === "analysis" && (
         <div className="mt-6 space-y-6">
-          {/* 4枚カード */}
-          {renderCards(personalStatsByWeek[w])}
-
           {/* グラフ + 傾向 */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <DashboardChart
@@ -140,6 +152,8 @@ export default function DashboardPage() {
               skillRatings={personalSkillRatingsByWeek[w]}
             />
           </div>
+          {/* 4枚カード */}
+          {renderCards(personalStatsByWeek[w])}
 
           {/* AI分析 + 今週の総評 */}
           <div className="grid gap-4 lg:grid-cols-2">

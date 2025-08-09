@@ -264,47 +264,89 @@ export const personalSkillRatingsByWeek: DistributionDataItem[][] = [
  * KPI（週ごと）
  * ================================ */
 
-export const teamStatsByWeek: ReadonlyArray<ReadonlyArray<Stat>> = [
+// 元データ（デルタなし）
+const teamStatsSource: ReadonlyArray<ReadonlyArray<Omit<Stat, "delta">>> = [
+  // 今週
   [
-    { kind: "commits", title: "今週のコミット数", value: 22, delta: 12 },
-    { kind: "features", title: "機能追加", value: 12, delta: 8 },
-    { kind: "bugs", title: "バグ修正", value: 6, delta: -5 },
-    { kind: "reviews", title: "レビュー", value: 4, delta: 25 },
+    { kind: "commits", title: "コミット数", value: 22 },
+    { kind: "features", title: "機能追加", value: 12 },
+    { kind: "bugs", title: "バグ修正", value: 6 },
+    { kind: "reviews", title: "レビュー", value: 4 },
   ],
+  // 先週
   [
-    { kind: "commits", title: "今週のコミット数", value: 20, delta: 5 },
-    { kind: "features", title: "機能追加", value: 10, delta: 2 },
-    { kind: "bugs", title: "バグ修正", value: 7, delta: -3 },
-    { kind: "reviews", title: "レビュー", value: 5, delta: 18 },
+    { kind: "commits", title: "コミット数", value: 22 },
+    { kind: "features", title: "機能追加", value: 10 },
+    { kind: "bugs", title: "バグ修正", value: 7 },
+    { kind: "reviews", title: "レビュー", value: 5 },
   ],
+  // 2週間前
   [
-    { kind: "commits", title: "今週のコミット数", value: 18, delta: -2 },
-    { kind: "features", title: "機能追加", value: 9, delta: -1 },
-    { kind: "bugs", title: "バグ修正", value: 8, delta: 0 },
-    { kind: "reviews", title: "レビュー", value: 4, delta: 10 },
+    { kind: "commits", title: "コミット数", value: 18 },
+    { kind: "features", title: "機能追加", value: 9 },
+    { kind: "bugs", title: "バグ修正", value: 8 },
+    { kind: "reviews", title: "レビュー", value: 4 },
   ],
 ];
 
-export const personalStatsByWeek: ReadonlyArray<ReadonlyArray<Stat>> = [
+const personalStatsSource: ReadonlyArray<ReadonlyArray<Omit<Stat, "delta">>> = [
+  // 今週
   [
-    { kind: "commits", title: "今週のコミット数", value: 9, delta: 5 },
-    { kind: "features", title: "機能追加", value: 5, delta: 11 },
-    { kind: "bugs", title: "バグ修正", value: 2, delta: -3 },
-    { kind: "reviews", title: "レビュー", value: 2, delta: 18 },
+    { kind: "commits", title: "コミット数", value: 9 },
+    { kind: "features", title: "機能追加", value: 5 },
+    { kind: "bugs", title: "バグ修正", value: 2 },
+    { kind: "reviews", title: "レビュー", value: 2 },
   ],
+  // 先週
   [
-    { kind: "commits", title: "今週のコミット数", value: 8, delta: 2 },
-    { kind: "features", title: "機能追加", value: 4, delta: 3 },
-    { kind: "bugs", title: "バグ修正", value: 3, delta: 1 },
-    { kind: "reviews", title: "レビュー", value: 2, delta: 5 },
+    { kind: "commits", title: "コミット数", value: 8 },
+    { kind: "features", title: "機能追加", value: 4 },
+    { kind: "bugs", title: "バグ修正", value: 3 },
+    { kind: "reviews", title: "レビュー", value: 2 },
   ],
+  // 2週間前
   [
-    { kind: "commits", title: "今週のコミット数", value: 7, delta: -1 },
-    { kind: "features", title: "機能追加", value: 3, delta: -2 },
-    { kind: "bugs", title: "バグ修正", value: 2, delta: 0 },
-    { kind: "reviews", title: "レビュー", value: 1, delta: 4 },
+    { kind: "commits", title: "コミット数", value: 7 },
+    { kind: "features", title: "機能追加", value: 3 },
+    { kind: "bugs", title: "バグ修正", value: 2 },
+    { kind: "reviews", title: "レビュー", value: 1 },
   ],
 ];
+
+/**
+ * 前週との差分（delta）を計算してStat[]を生成する
+ * @param statsByWeek 週ごとのStat配列（deltaなし）
+ */
+function calculateDeltas(
+  statsByWeek: ReadonlyArray<ReadonlyArray<Omit<Stat, "delta">>>
+): ReadonlyArray<ReadonlyArray<Stat>> {
+  return statsByWeek.map((currentWeekStats, index) => {
+    // 1つ前の週のデータを取得 (index+1 が前の週)
+    const previousWeekStats = statsByWeek[index + 1];
+
+    // 比較対象の週がない場合 (最も古い週)
+    if (!previousWeekStats) {
+      return currentWeekStats.map((stat) => ({ ...stat, delta: null }));
+    }
+
+    // 今週と前週のデータを比較してdeltaを計算
+    return currentWeekStats.map((currentStat) => {
+      const previousStat = previousWeekStats.find(
+        (s) => s.kind === currentStat.kind
+      );
+
+      const delta = previousStat
+        ? currentStat.value - previousStat.value
+        : null;
+
+      return { ...currentStat, delta };
+    });
+  });
+}
+
+// 計算済みのデータをエクスポート
+export const teamStatsByWeek = calculateDeltas(teamStatsSource);
+export const personalStatsByWeek = calculateDeltas(personalStatsSource);
 
 /* ================================
  * AI Insights / 週次総評（週ごと）
