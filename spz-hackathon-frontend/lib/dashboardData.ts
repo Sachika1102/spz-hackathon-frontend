@@ -84,3 +84,65 @@ export const personalSkillRatings = [
   { label: "データベース", value: 60, color: "bg-purple-500" },
   { label: "テスト設計", value: 50, color: "bg-orange-500" },
 ];
+// KPIカード（チーム）
+export const teamStats = [
+  { kind: "commits", title: "今週のコミット数", value: 22, delta: 12 },
+  { kind: "features", title: "機能追加", value: 12, delta: 8 },
+  { kind: "bugs", title: "バグ修正", value: 6, delta: -5 },
+  { kind: "reviews", title: "レビュー", value: 4, delta: 25 },
+] as const;
+
+// KPIカード（個人）
+export const personalStats = [
+  { kind: "commits", title: "今週のコミット数", value: 9, delta: 5 },
+  { kind: "features", title: "機能追加", value: 5, delta: 11 },
+  { kind: "bugs", title: "バグ修正", value: 2, delta: -3 },
+  { kind: "reviews", title: "レビュー", value: 2, delta: 18 },
+] as const;
+
+import { AIInsight } from "@/types/analysis";
+
+// AI分析（チーム）
+export const teamAIInsights: AIInsight[] = [
+  {
+    title: "今週のハイライト",
+    body: "機能追加が全体を牽引。認証まわりで品質が向上しています。",
+    tone: "success",
+  },
+  {
+    title: "おすすめの改善点",
+    body: "コードレビューの回数を増やすとチーム全体の品質が底上げできます。",
+    tone: "info",
+  },
+  {
+    title: "トレンド分析",
+    body: "バックエンド寄り。UI改善の時間をもう少し確保するとバランスが良くなります。",
+    tone: "warning",
+  },
+];
+
+// AI分析（個人）
+export const personalAIInsights: AIInsight[] = [
+  {
+    title: "今週のハイライト",
+    body: "TypeScriptリファクタで生産性が向上。",
+    tone: "success",
+  },
+  {
+    title: "おすすめの改善点",
+    body: "PR説明文をもう一段詳しく。レビュアーの負担が減ります。",
+    tone: "info",
+  },
+  {
+    title: "トレンド分析",
+    body: "API実装が多め。UIテストも少しずつ取り組むと◎。",
+    tone: "warning",
+  },
+];
+
+// 今週の総評
+export const teamWeeklySummary =
+  "全体的に活発な開発活動。機能追加の伸びが顕著で、レビュー体制の強化が次の課題です。継続的な成長が期待できます";
+
+export const personalWeeklySummary =
+  "安定してコミットを継続。機能追加での貢献が高く、次週はレビュー主導での品質改善に挑戦するとさらに評価が伸びます。";
