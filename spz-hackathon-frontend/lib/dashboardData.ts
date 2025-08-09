@@ -1,148 +1,437 @@
-// lib/dashboardData.ts
+import type {
+  ChartData,
+  DistributionDataItem,
+  Stat,
+  AIInsight,
+} from "@/types/analysis";
 
-// チーム用データ
-export const teamChartData = {
-  labels: ["月", "火", "水", "木", "金", "土", "日"],
-  datasets: [
+/* ================================
+ * チャート（週ごと）
+ * 0: 今週 / 1: 先週 / 2: 2週間前
+ * ================================ */
+
+export const teamChartDataByWeek: ChartData[] = [
+  // 今週
+  {
+    labels: ["月", "火", "水", "木", "金", "土", "日"],
+    datasets: [
+      {
+        label: "総コミット数",
+        data: [6, 10, 14, 18, 22, 16, 10],
+        borderColor: "#3b82f6",
+        backgroundColor: "rgba(59,130,246,0.2)",
+      },
+      {
+        label: "機能追加",
+        data: [4, 6, 8, 12, 14, 10, 6],
+        borderColor: "#10b981",
+        backgroundColor: "rgba(16,185,129,0.2)",
+      },
+      {
+        label: "バグ修正",
+        data: [2, 4, 5, 6, 7, 5, 3],
+        borderColor: "#f59e0b",
+        backgroundColor: "rgba(245,158,11,0.2)",
+      },
+    ],
+  },
+  // 先週
+  {
+    labels: ["月", "火", "水", "木", "金", "土", "日"],
+    datasets: [
+      {
+        label: "総コミット数",
+        data: [5, 9, 12, 16, 18, 14, 9],
+        borderColor: "#3b82f6",
+        backgroundColor: "rgba(59,130,246,0.2)",
+      },
+      {
+        label: "機能追加",
+        data: [3, 5, 7, 9, 11, 8, 5],
+        borderColor: "#10b981",
+        backgroundColor: "rgba(16,185,129,0.2)",
+      },
+      {
+        label: "バグ修正",
+        data: [2, 4, 5, 5, 7, 6, 4],
+        borderColor: "#f59e0b",
+        backgroundColor: "rgba(245,158,11,0.2)",
+      },
+    ],
+  },
+  // 2週間前
+  {
+    labels: ["月", "火", "水", "木", "金", "土", "日"],
+    datasets: [
+      {
+        label: "総コミット数",
+        data: [4, 8, 10, 12, 15, 12, 8],
+        borderColor: "#3b82f6",
+        backgroundColor: "rgba(59,130,246,0.2)",
+      },
+      {
+        label: "機能追加",
+        data: [2, 4, 5, 7, 9, 7, 4],
+        borderColor: "#10b981",
+        backgroundColor: "rgba(16,185,129,0.2)",
+      },
+      {
+        label: "バグ修正",
+        data: [2, 4, 5, 5, 6, 5, 4],
+        borderColor: "#f59e0b",
+        backgroundColor: "rgba(245,158,11,0.2)",
+      },
+    ],
+  },
+];
+
+export const personalChartDataByWeek: ChartData[] = [
+  // 今週
+  {
+    labels: ["月", "火", "水", "木", "金", "土", "日"],
+    datasets: [
+      {
+        label: "総コミット数",
+        data: [2, 4, 6, 8, 10, 7, 5],
+        borderColor: "#8b5cf6",
+        backgroundColor: "rgba(139,92,246,0.2)",
+      },
+      {
+        label: "機能追加",
+        data: [1, 2, 3, 4, 5, 3, 2],
+        borderColor: "#f43f5e",
+        backgroundColor: "rgba(244,63,94,0.2)",
+      },
+      {
+        label: "バグ修正",
+        data: [1, 1, 2, 2, 2, 1, 1],
+        borderColor: "#f59e0b",
+        backgroundColor: "rgba(245,158,11,0.2)",
+      },
+    ],
+  },
+  // 先週
+  {
+    labels: ["月", "火", "水", "木", "金", "土", "日"],
+    datasets: [
+      {
+        label: "総コミット数",
+        data: [2, 3, 5, 7, 9, 6, 4],
+        borderColor: "#8b5cf6",
+        backgroundColor: "rgba(139,92,246,0.2)",
+      },
+      {
+        label: "機能追加",
+        data: [1, 1, 2, 3, 4, 2, 2],
+        borderColor: "#f43f5e",
+        backgroundColor: "rgba(244,63,94,0.2)",
+      },
+      {
+        label: "バグ修正",
+        data: [1, 1, 1, 2, 2, 1, 1],
+        borderColor: "#f59e0b",
+        backgroundColor: "rgba(245,158,11,0.2)",
+      },
+    ],
+  },
+  // 2週間前
+  {
+    labels: ["月", "火", "水", "木", "金", "土", "日"],
+    datasets: [
+      {
+        label: "総コミット数",
+        data: [1, 3, 4, 6, 8, 5, 3],
+        borderColor: "#8b5cf6",
+        backgroundColor: "rgba(139,92,246,0.2)",
+      },
+      {
+        label: "機能追加",
+        data: [0, 1, 2, 3, 3, 2, 1],
+        borderColor: "#f43f5e",
+        backgroundColor: "rgba(244,63,94,0.2)",
+      },
+      {
+        label: "バグ修正",
+        data: [1, 1, 1, 1, 2, 1, 1],
+        borderColor: "#f59e0b",
+        backgroundColor: "rgba(245,158,11,0.2)",
+      },
+    ],
+  },
+];
+
+/* ================================
+ * 作業分布 / スキル評価（週ごと）
+ * ================================ */
+
+export const teamWorkDistributionByWeek: DistributionDataItem[][] = [
+  // 今週
+  [
+    { label: "フロントエンド", value: 45, color: "bg-blue-500" },
+    { label: "バックエンド", value: 35, color: "bg-green-500" },
+    { label: "テスト", value: 12, color: "bg-yellow-500" },
+    { label: "ドキュメント", value: 8, color: "bg-purple-500" },
+  ],
+  // 先週
+  [
+    { label: "フロントエンド", value: 42, color: "bg-blue-500" },
+    { label: "バックエンド", value: 38, color: "bg-green-500" },
+    { label: "テスト", value: 12, color: "bg-yellow-500" },
+    { label: "ドキュメント", value: 8, color: "bg-purple-500" },
+  ],
+  // 2週間前
+  [
+    { label: "フロントエンド", value: 40, color: "bg-blue-500" },
+    { label: "バックエンド", value: 40, color: "bg-green-500" },
+    { label: "テスト", value: 12, color: "bg-yellow-500" },
+    { label: "ドキュメント", value: 8, color: "bg-purple-500" },
+  ],
+];
+
+export const personalWorkDistributionByWeek: DistributionDataItem[][] = [
+  // 今週
+  [
+    { label: "フロントエンド", value: 60, color: "bg-blue-500" },
+    { label: "バックエンド", value: 25, color: "bg-green-500" },
+    { label: "テスト", value: 10, color: "bg-yellow-500" },
+    { label: "ドキュメント", value: 5, color: "bg-purple-500" },
+  ],
+  // 先週
+  [
+    { label: "フロントエンド", value: 58, color: "bg-blue-500" },
+    { label: "バックエンド", value: 27, color: "bg-green-500" },
+    { label: "テスト", value: 10, color: "bg-yellow-500" },
+    { label: "ドキュメント", value: 5, color: "bg-purple-500" },
+  ],
+  // 2週間前
+  [
+    { label: "フロントエンド", value: 55, color: "bg-blue-500" },
+    { label: "バックエンド", value: 30, color: "bg-green-500" },
+    { label: "テスト", value: 10, color: "bg-yellow-500" },
+    { label: "ドキュメント", value: 5, color: "bg-purple-500" },
+  ],
+];
+
+export const teamSkillRatingsByWeek: DistributionDataItem[][] = [
+  // 今週
+  [
+    { label: "React/TypeScript", value: 85, color: "bg-blue-500" },
+    { label: "Node.js", value: 75, color: "bg-green-500" },
+    { label: "データベース", value: 65, color: "bg-purple-500" },
+    { label: "テスト設計", value: 55, color: "bg-orange-500" },
+  ],
+  // 先週
+  [
+    { label: "React/TypeScript", value: 84, color: "bg-blue-500" },
+    { label: "Node.js", value: 74, color: "bg-green-500" },
+    { label: "データベース", value: 64, color: "bg-purple-500" },
+    { label: "テスト設計", value: 54, color: "bg-orange-500" },
+  ],
+  // 2週間前
+  [
+    { label: "React/TypeScript", value: 83, color: "bg-blue-500" },
+    { label: "Node.js", value: 73, color: "bg-green-500" },
+    { label: "データベース", value: 63, color: "bg-purple-500" },
+    { label: "テスト設計", value: 53, color: "bg-orange-500" },
+  ],
+];
+
+export const personalSkillRatingsByWeek: DistributionDataItem[][] = [
+  // 今週
+  [
+    { label: "React/TypeScript", value: 90, color: "bg-blue-500" },
+    { label: "Node.js", value: 70, color: "bg-green-500" },
+    { label: "データベース", value: 60, color: "bg-purple-500" },
+    { label: "テスト設計", value: 50, color: "bg-orange-500" },
+  ],
+  // 先週
+  [
+    { label: "React/TypeScript", value: 89, color: "bg-blue-500" },
+    { label: "Node.js", value: 71, color: "bg-green-500" },
+    { label: "データベース", value: 61, color: "bg-purple-500" },
+    { label: "テスト設計", value: 51, color: "bg-orange-500" },
+  ],
+  // 2週間前
+  [
+    { label: "React/TypeScript", value: 88, color: "bg-blue-500" },
+    { label: "Node.js", value: 72, color: "bg-green-500" },
+    { label: "データベース", value: 61, color: "bg-purple-500" },
+    { label: "テスト設計", value: 52, color: "bg-orange-500" },
+  ],
+];
+
+/* ================================
+ * KPI（週ごと）
+ * ================================ */
+
+export const teamStatsByWeek: ReadonlyArray<ReadonlyArray<Stat>> = [
+  [
+    { kind: "commits", title: "今週のコミット数", value: 22, delta: 12 },
+    { kind: "features", title: "機能追加", value: 12, delta: 8 },
+    { kind: "bugs", title: "バグ修正", value: 6, delta: -5 },
+    { kind: "reviews", title: "レビュー", value: 4, delta: 25 },
+  ],
+  [
+    { kind: "commits", title: "今週のコミット数", value: 20, delta: 5 },
+    { kind: "features", title: "機能追加", value: 10, delta: 2 },
+    { kind: "bugs", title: "バグ修正", value: 7, delta: -3 },
+    { kind: "reviews", title: "レビュー", value: 5, delta: 18 },
+  ],
+  [
+    { kind: "commits", title: "今週のコミット数", value: 18, delta: -2 },
+    { kind: "features", title: "機能追加", value: 9, delta: -1 },
+    { kind: "bugs", title: "バグ修正", value: 8, delta: 0 },
+    { kind: "reviews", title: "レビュー", value: 4, delta: 10 },
+  ],
+];
+
+export const personalStatsByWeek: ReadonlyArray<ReadonlyArray<Stat>> = [
+  [
+    { kind: "commits", title: "今週のコミット数", value: 9, delta: 5 },
+    { kind: "features", title: "機能追加", value: 5, delta: 11 },
+    { kind: "bugs", title: "バグ修正", value: 2, delta: -3 },
+    { kind: "reviews", title: "レビュー", value: 2, delta: 18 },
+  ],
+  [
+    { kind: "commits", title: "今週のコミット数", value: 8, delta: 2 },
+    { kind: "features", title: "機能追加", value: 4, delta: 3 },
+    { kind: "bugs", title: "バグ修正", value: 3, delta: 1 },
+    { kind: "reviews", title: "レビュー", value: 2, delta: 5 },
+  ],
+  [
+    { kind: "commits", title: "今週のコミット数", value: 7, delta: -1 },
+    { kind: "features", title: "機能追加", value: 3, delta: -2 },
+    { kind: "bugs", title: "バグ修正", value: 2, delta: 0 },
+    { kind: "reviews", title: "レビュー", value: 1, delta: 4 },
+  ],
+];
+
+/* ================================
+ * AI Insights / 週次総評（週ごと）
+ * ================================ */
+
+export const teamAIInsightsByWeek: AIInsight[][] = [
+  // 今週
+  [
     {
-      label: "総コミット数",
-      data: [6, 10, 14, 18, 22, 16, 10],
-      borderColor: "#3b82f6", // 青
-      backgroundColor: "rgba(59, 130, 246, 0.2)",
+      title: "今週のハイライト",
+      body: "機能追加が全体を牽引。認証まわりで品質向上。",
+      tone: "success",
     },
     {
-      label: "機能追加",
-      data: [4, 6, 8, 12, 14, 10, 6],
-      borderColor: "#10b981", // 緑
-      backgroundColor: "rgba(16, 185, 129, 0.2)",
+      title: "おすすめの改善点",
+      body: "レビュー回数を増やして品質底上げ。",
+      tone: "info",
     },
     {
-      label: "バグ修正",
-      data: [2, 4, 5, 6, 7, 5, 3],
-      borderColor: "#f59e0b", // オレンジ
-      backgroundColor: "rgba(245, 158, 11, 0.2)",
+      title: "トレンド分析",
+      body: "バックエンド寄り。UI改善の時間を確保。",
+      tone: "warning",
     },
   ],
-};
-
-// 個人用データ（同じ3本構成で色変更）
-export const personalChartData = {
-  labels: ["月", "火", "水", "木", "金", "土", "日"],
-  datasets: [
+  // 先週
+  [
     {
-      label: "総コミット数",
-      data: [2, 4, 6, 8, 10, 7, 5],
-      borderColor: "#8b5cf6", // 紫
-      backgroundColor: "rgba(139, 92, 246, 0.2)",
+      title: "今週のハイライト",
+      body: "新機能の仕様固めが順調。小バグ修正で安定度UP。",
+      tone: "success",
     },
     {
-      label: "機能追加",
-      data: [1, 2, 3, 4, 5, 3, 2],
-      borderColor: "#f43f5e", // ピンク
-      backgroundColor: "rgba(244, 63, 94, 0.2)",
+      title: "おすすめの改善点",
+      body: "テストケースの充実を。E2Eの追加で回帰を防止。",
+      tone: "info",
     },
     {
-      label: "バグ修正",
-      data: [1, 1, 2, 2, 2, 1, 1],
-      borderColor: "#f59e0b", // オレンジ
-      backgroundColor: "rgba(245, 158, 11, 0.2)",
+      title: "トレンド分析",
+      body: "レビュー対応が増加。知見共有のドキュメント化を。",
+      tone: "warning",
     },
   ],
-};
-// -------------------- チームデータ --------------------
-
-// 右側の作業傾向データ（チーム）
-export const teamWorkDistribution = [
-  { label: "フロントエンド", value: 45, color: "bg-blue-500" },
-  { label: "バックエンド", value: 35, color: "bg-green-500" },
-  { label: "テスト", value: 12, color: "bg-yellow-500" },
-  { label: "ドキュメント", value: 8, color: "bg-purple-500" },
+  // 2週間前
+  [
+    {
+      title: "今週のハイライト",
+      body: "設計・調査タスクを着実に消化。基盤整備が前進。",
+      tone: "success",
+    },
+    {
+      title: "おすすめの改善点",
+      body: "スプリント計画時の見積もり精度向上を検討。",
+      tone: "info",
+    },
+    {
+      title: "トレンド分析",
+      body: "バックログの整理で優先度が明確化。",
+      tone: "warning",
+    },
+  ],
 ];
 
-// スキル評価データ（チーム）
-export const teamSkillRatings = [
-  { label: "React/TypeScript", value: 85, color: "bg-blue-500" },
-  { label: "Node.js", value: 75, color: "bg-green-500" },
-  { label: "データベース", value: 65, color: "bg-purple-500" },
-  { label: "テスト設計", value: 55, color: "bg-orange-500" },
+export const personalAIInsightsByWeek: AIInsight[][] = [
+  // 今週
+  [
+    {
+      title: "今週のハイライト",
+      body: "TSリファクタで生産性向上。型エラー減少。",
+      tone: "success",
+    },
+    {
+      title: "おすすめの改善点",
+      body: "PR 説明を詳しくしてレビュアーの負担軽減。",
+      tone: "info",
+    },
+    {
+      title: "トレンド分析",
+      body: "API 実装が多め。UI テストも少しずつ取り組むと◎。",
+      tone: "warning",
+    },
+  ],
+  // 先週
+  [
+    {
+      title: "今週のハイライト",
+      body: "バグ修正の効率が改善。再発防止のチェックリスト作成。",
+      tone: "success",
+    },
+    {
+      title: "おすすめの改善点",
+      body: "コミット粒度を一定に。履歴から変更意図が追いやすく。",
+      tone: "info",
+    },
+    {
+      title: "トレンド分析",
+      body: "ドキュメントが薄め。README の更新頻度を上げよう。",
+      tone: "warning",
+    },
+  ],
+  // 2週間前
+  [
+    {
+      title: "今週のハイライト",
+      body: "設計レビューに積極参加。仕様理解が深まった。",
+      tone: "success",
+    },
+    {
+      title: "おすすめの改善点",
+      body: "テストカバレッジの目標を設定して可視化。",
+      tone: "info",
+    },
+    {
+      title: "トレンド分析",
+      body: "バックエンド偏重。フロントにも時間を配分するとバランス◎。",
+      tone: "warning",
+    },
+  ],
 ];
 
-// -------------------- 個人データ --------------------
-
-// 右側の作業傾向データ（個人）
-export const personalWorkDistribution = [
-  { label: "フロントエンド", value: 60, color: "bg-blue-500" },
-  { label: "バックエンド", value: 25, color: "bg-green-500" },
-  { label: "テスト", value: 10, color: "bg-yellow-500" },
-  { label: "ドキュメント", value: 5, color: "bg-purple-500" },
+export const teamWeeklySummaryByWeek: string[] = [
+  "全体的に活発な開発活動。機能追加の伸びが顕著。レビュー体制の強化が次の課題。",
+  "先週は安定推移。レビュー対応が増加し、品質基盤が強化された週。",
+  "2週間前は設計・準備フェーズが多め。今週以降の開発加速に備えた整備期間。",
 ];
 
-// スキル評価データ（個人）
-export const personalSkillRatings = [
-  { label: "React/TypeScript", value: 90, color: "bg-blue-500" },
-  { label: "Node.js", value: 70, color: "bg-green-500" },
-  { label: "データベース", value: 60, color: "bg-purple-500" },
-  { label: "テスト設計", value: 50, color: "bg-orange-500" },
+export const personalWeeklySummaryByWeek: string[] = [
+  "安定してコミットを継続。機能追加の貢献が高く、質も向上。",
+  "先週はレビュー中心で品質改善に寄与。PR の説明精度が上がった。",
+  "2週間前は設計・調査に時間を配分。以降の実装効率向上に繋がる投資。",
 ];
-// KPIカード（チーム）
-export const teamStats = [
-  { kind: "commits", title: "今週のコミット数", value: 22, delta: 12 },
-  { kind: "features", title: "機能追加", value: 12, delta: 8 },
-  { kind: "bugs", title: "バグ修正", value: 6, delta: -5 },
-  { kind: "reviews", title: "レビュー", value: 4, delta: 25 },
-] as const;
-
-// KPIカード（個人）
-export const personalStats = [
-  { kind: "commits", title: "今週のコミット数", value: 9, delta: 5 },
-  { kind: "features", title: "機能追加", value: 5, delta: 11 },
-  { kind: "bugs", title: "バグ修正", value: 2, delta: -3 },
-  { kind: "reviews", title: "レビュー", value: 2, delta: 18 },
-] as const;
-
-import { AIInsight } from "@/types/analysis";
-
-// AI分析（チーム）
-export const teamAIInsights: AIInsight[] = [
-  {
-    title: "今週のハイライト",
-    body: "機能追加が全体を牽引。認証まわりで品質が向上しています。",
-    tone: "success",
-  },
-  {
-    title: "おすすめの改善点",
-    body: "コードレビューの回数を増やすとチーム全体の品質が底上げできます。",
-    tone: "info",
-  },
-  {
-    title: "トレンド分析",
-    body: "バックエンド寄り。UI改善の時間をもう少し確保するとバランスが良くなります。",
-    tone: "warning",
-  },
-];
-
-// AI分析（個人）
-export const personalAIInsights: AIInsight[] = [
-  {
-    title: "今週のハイライト",
-    body: "TypeScriptリファクタで生産性が向上。",
-    tone: "success",
-  },
-  {
-    title: "おすすめの改善点",
-    body: "PR説明文をもう一段詳しく。レビュアーの負担が減ります。",
-    tone: "info",
-  },
-  {
-    title: "トレンド分析",
-    body: "API実装が多め。UIテストも少しずつ取り組むと◎。",
-    tone: "warning",
-  },
-];
-
-// 今週の総評
-export const teamWeeklySummary =
-  "全体的に活発な開発活動。機能追加の伸びが顕著で、レビュー体制の強化が次の課題です。継続的な成長が期待できます";
-
-export const personalWeeklySummary =
-  "安定してコミットを継続。機能追加での貢献が高く、次週はレビュー主導での品質改善に挑戦するとさらに評価が伸びます。";
