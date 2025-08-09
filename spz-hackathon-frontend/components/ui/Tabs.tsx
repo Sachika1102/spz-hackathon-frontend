@@ -52,7 +52,7 @@ export default function Tabs({
             aria-selected={selected}
             aria-controls={`panel-${tab.id}`}
             onClick={() => handleClick(tab.id)}
-            className={`${paddingX} py-2 rounded-full text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            className={`${paddingX} py-2 rounded-full text-sm font-medium transition-colors focus:outline-none  ${
               selected
                 ? "bg-blue-500 text-white shadow"
                 : "text-gray-700 hover:bg-gray-100"
