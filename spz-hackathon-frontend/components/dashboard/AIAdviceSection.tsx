@@ -4,26 +4,34 @@ const toneClass = {
   success: "bg-green-50 text-green-700",
   info: "bg-blue-50 text-blue-700",
   warning: "bg-amber-50 text-amber-700",
-  note: "bg-violet-50 text-violet-700",
+  note: "bg-violet-50 text-violet-700", // 将来拡張用（AIInsight に note が無くてもOK）
 } as const;
 
-export default function AIAdviceSection({ items }: { items: AIInsight[] }) {
+type Props = {
+  items: ReadonlyArray<AIInsight>; // ★ readonly 配列を受け取れるように
+};
+
+export default function AIAdviceSection({ items }: Props) {
   return (
     <section className="bg-white p-6 rounded-lg shadow border border-gray-200">
       <h3 className="mb-4 text-lg font-semibold">AI分析とアドバイス</h3>
       <div className="grid gap-3">
-        {items.map((it, i) => (
-          <div key={i} className="rounded-xl border shadow border-gray-200 p-4">
+        {items.map((it, i) => {
+          const cls = toneClass[(it.tone ?? "info") as keyof typeof toneClass];
+          return (
             <div
-              className={`mb-2 inline-block rounded-md px-2 py-0.5 text-xs font-medium ${
-                toneClass[it.tone ?? "info"]
-              }`}
+              key={i}
+              className="rounded-xl border shadow border-gray-200 p-4"
             >
-              {it.title}
+              <div
+                className={`mb-2 inline-block rounded-md px-2 py-0.5 text-xs font-medium ${cls}`}
+              >
+                {it.title}
+              </div>
+              <p className="text-sm leading-6 text-gray-700">{it.body}</p>
             </div>
-            <p className="text-sm leading-6 text-gray-700">{it.body}</p>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

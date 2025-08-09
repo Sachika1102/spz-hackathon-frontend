@@ -12,22 +12,7 @@ import AIAdviceSection from "@/components/dashboard/AIAdviceSection";
 import WeeklySummary from "@/components/dashboard/WeeklySummary";
 
 import type { Stat } from "@/types/analysis";
-
-// ★ 週ごとの配列をインポート（ByWeek）
-import {
-  teamChartDataByWeek,
-  personalChartDataByWeek,
-  teamWorkDistributionByWeek,
-  personalWorkDistributionByWeek,
-  teamSkillRatingsByWeek,
-  personalSkillRatingsByWeek,
-  teamStatsByWeek,
-  personalStatsByWeek,
-  teamAIInsightsByWeek,
-  personalAIInsightsByWeek,
-  teamWeeklySummaryByWeek,
-  personalWeeklySummaryByWeek,
-} from "@/lib/dashboardData";
+import { useDashboard } from "@/hooks/useDashboard"; // ★ 薄いフックに一本化
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState<"overview" | "analysis">(
@@ -37,8 +22,12 @@ export default function DashboardPage() {
 
   const weeks = ["今週", "先週", "2週間前"] as const;
 
-  // clamp: 0..weeks.length-1 の範囲に収める（配列外アクセス防止）
+  // 0..weeks.length-1 の範囲に収める（配列外アクセス防止）
   const w = Math.min(Math.max(selectedWeek, 0), weeks.length - 1);
+
+  // フックでまとめて取得（今はローカル配列即時、将来はAPIに差し替え）
+  const team = useDashboard("team", w);
+  const personal = useDashboard("personal", w);
 
   const getUnit = (kind: Stat["kind"]): string => {
     switch (kind) {
@@ -82,7 +71,7 @@ export default function DashboardPage() {
             { id: "overview", label: "チーム" },
             { id: "analysis", label: "個人" },
           ]}
-          value={activeTab} // ★ 制御コンポーネントとして値を渡す
+          value={activeTab}
           onChange={(v) => setActiveTab(v as "overview" | "analysis")}
         />
 
@@ -116,22 +105,23 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <DashboardChart
               title={`週間活動トレンド（チーム）- ${weeks[w]}`}
-              labels={teamChartDataByWeek[w].labels}
-              datasets={teamChartDataByWeek[w].datasets}
+              labels={team.chart.labels}
+              datasets={team.chart.datasets}
             />
             <DashboardInsights
               title={`あなたの開発傾向（チーム）- ${weeks[w]}`}
-              workDistribution={teamWorkDistributionByWeek[w]}
-              skillRatings={teamSkillRatingsByWeek[w]}
+              workDistribution={team.workDistribution}
+              skillRatings={team.skillRatings}
             />
           </div>
+
           {/* 4枚カード */}
-          {renderCards(teamStatsByWeek[w])}
+          {renderCards(team.stats)}
 
           {/* AI分析 + 今週の総評 */}
           <div className="grid gap-4 lg:grid-cols-2">
-            <AIAdviceSection items={teamAIInsightsByWeek[w]} />
-            <WeeklySummary text={teamWeeklySummaryByWeek[w]} />
+            <AIAdviceSection items={team.insights} />
+            <WeeklySummary text={team.summary} />
           </div>
         </div>
       )}
@@ -143,22 +133,23 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <DashboardChart
               title={`週間活動トレンド（個人）- ${weeks[w]}`}
-              labels={personalChartDataByWeek[w].labels}
-              datasets={personalChartDataByWeek[w].datasets}
+              labels={personal.chart.labels}
+              datasets={personal.chart.datasets}
             />
             <DashboardInsights
               title={`あなたの開発傾向（個人）- ${weeks[w]}`}
-              workDistribution={personalWorkDistributionByWeek[w]}
-              skillRatings={personalSkillRatingsByWeek[w]}
+              workDistribution={personal.workDistribution}
+              skillRatings={personal.skillRatings}
             />
           </div>
+
           {/* 4枚カード */}
-          {renderCards(personalStatsByWeek[w])}
+          {renderCards(personal.stats)}
 
           {/* AI分析 + 今週の総評 */}
           <div className="grid gap-4 lg:grid-cols-2">
-            <AIAdviceSection items={personalAIInsightsByWeek[w]} />
-            <WeeklySummary text={personalWeeklySummaryByWeek[w]} />
+            <AIAdviceSection items={personal.insights} />
+            <WeeklySummary text={personal.summary} />
           </div>
         </div>
       )}
