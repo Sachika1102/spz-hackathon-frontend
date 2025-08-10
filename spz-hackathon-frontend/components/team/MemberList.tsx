@@ -17,48 +17,38 @@ export default function MemberList() {
   const [members, setMembers] = useState<Member[]>([
     {
       id: 1,
-      name: "田中 太郎",
-      role: "チームリーダー",
+      name: "野月平 快士",
+      role: "フロントエンド",
       avatar:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop&crop=face",
       status: "online",
-      lastActive: "2分前",
-      commits: 156,
-      reviews: 23,
+      lastActive: "1時間前",
+      commits: 15,
+      reviews: 0,
     },
     {
       id: 2,
-      name: "佐藤 花子",
-      role: "フロントエンド開発者",
+      name: "附柳 祥華",
+      role: "フロントエンド",
       avatar:
         "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=60&h=60&fit=crop&crop=face",
       status: "online",
-      lastActive: "15分前",
-      commits: 134,
-      reviews: 18,
+      lastActive: "1時間前",
+      commits: 7,
+      reviews: 0,
     },
     {
       id: 3,
-      name: "鈴木 次郎",
-      role: "バックエンド開発者",
+      name: "波多野  夢斗",
+      role: "バックエンド",
       avatar:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face",
       status: "offline",
       lastActive: "1時間前",
-      commits: 98,
-      reviews: 15,
+      commits: 0,
+      reviews: 0,
     },
-    {
-      id: 4,
-      name: "高橋 美咲",
-      role: "デザイナー",
-      avatar:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop&crop=face",
-      status: "online",
-      lastActive: "5分前",
-      commits: 67,
-      reviews: 8,
-    },
+  
   ]);
 
   const [showModal, setShowModal] = useState(false);
@@ -213,7 +203,7 @@ export default function MemberList() {
       {/* ヘッダーと追加ボタン */}
       <div className="flex justify-between items-center">
         <div className="flex">
-          <h2 className="font-bold text-[20px] mr-4">チームメンバー</h2>
+          <h2 className="font-bold text-[20px] mr-4">spz-hackathon-frontend</h2>
           <p className="w-12 h-7 bg-blue-200 text-blue-700 font-bold text-sm rounded-2xl flex items-center justify-center">
             {members.length}人
           </p>

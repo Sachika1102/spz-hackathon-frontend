@@ -40,7 +40,7 @@ export default function Header() {
         </button>
 
         {/* アプリ名 */}
-        <span className="font-bold text-lg text-gray-800">DevAnalytics</span>
+        <span className="font-bold text-lg text-gray-800">CommitScope</span>
 
         {/* ナビゲーション */}
         <nav className="flex space-x-4 text-gray-700">

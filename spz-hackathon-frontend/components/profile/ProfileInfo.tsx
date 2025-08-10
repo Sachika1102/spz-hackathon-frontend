@@ -52,26 +52,26 @@ export default function ProfileInfo({ onEdit }: ProfileInfoProps) {
         <div className="flex-1 grid grid-cols-2 gap-x-16 gap-y-6">
           <div>
             <p className="font-bold text-gray-600 mb-1">名前</p>
-            <p>田中太郎</p>
+            <p>野月平 快士</p>
           </div>
           <div>
             <p className="font-bold text-gray-600 mb-1">メールアドレス</p>
-            <p>tanaka@example.com</p>
+            <p>k.notsukitaira.sys23@morijyobi.ac.jp</p>
           </div>
           <div>
             <p className="font-bold text-gray-600 mb-1">部署</p>
-            <p>エンジニアリング</p>
+            <p>なし</p>
           </div>
           <div>
             <p className="font-bold text-gray-600 mb-1">役職</p>
-            <p>シニアエンジニア</p>
+            <p>学生</p>
           </div>
           <div>
             <p className="font-bold text-gray-600 mb-1">所在地</p>
-            <p>東京都</p>
+            <p>岩手県</p>
           </div>
           <div>
-            <p className="font-bold text-gray-600 mb-1">入社日</p>
+            <p className="font-bold text-gray-600 mb-1">利用開始日</p>
             <p>2022-04-01</p>
           </div>
         </div>
@@ -81,7 +81,7 @@ export default function ProfileInfo({ onEdit }: ProfileInfoProps) {
       <div className="mt-8">
         <p className="font-bold text-gray-600 mb-2">自己紹介</p>
         <p>
-          フルスタック開発者として5年の経験があります。React、Node.js、データベース設計が得意です。
+          フルスタック開発者として2年の経験があります。React、Node.js、データベース設計が得意です。
         </p>
       </div>
 
@@ -90,23 +90,23 @@ export default function ProfileInfo({ onEdit }: ProfileInfoProps) {
         <div>
           <p className="font-bold text-gray-600 mb-1">GitHub</p>
           <a
-            href="https://github.com/tanaka-taro"
+            href="https://github.com/notsukitaira"
             className="text-blue-600 hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >
-            https://github.com/tanaka-taro
+            https://github.com/notsukitaira
           </a>
         </div>
         <div className="ml-16">
           <p className="font-bold text-gray-600 mb-1">LinkedIn</p>
           <a
-            href="https://linkedin.com/in/tanaka-taro"
+            href="https://linkedin.com/in/notsukitaira"
             className="text-blue-600 hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >
-            https://linkedin.com/in/tanaka-taro
+            https://linkedin.com/in/notsukitaira
           </a>
         </div>
       </div>
