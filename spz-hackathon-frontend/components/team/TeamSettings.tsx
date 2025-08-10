@@ -31,7 +31,7 @@ export default function TeamSettings() {
 
     return (
         <div>
-            <h2 className="font-bold text-lg">チーム設定</h2>
+            <h2 className="font-bold text-lg mt-[50px]">チーム設定</h2>
             <div className="flex">
                 {/* 左側：基本情報 */}
                 <div className="w-[600px] h-[250px] border border-gray-200 p-4 rounded-lg bg-white">
@@ -101,9 +101,8 @@ export default function TeamSettings() {
                     </div>
                 </div>
             </div>
-
             {/* チーム統計 */}
-            <div className="w-[1060px] bg-white border border-gray-200 rounded-lg h-[150px] mt-5">
+            <div className="w-[1105px] bg-white border border-gray-200 rounded-lg h-[150px] mt-5">
                 <h2 className="font-bold text-xl mt-6 ml-6">チーム統計</h2>
                 <div className="flex justify-around">
                     <div>
@@ -122,7 +121,7 @@ export default function TeamSettings() {
             </div>
 
             {/* 危険な操作 */}
-            <div className="w-[1060px] bg-white border border-gray-200 rounded-lg h-[250px] mt-5">
+            <div className="w-[1105px] bg-white border border-gray-200 rounded-lg h-[250px] mt-5">
                 <h2 className="font-bold text-xl mt-6 ml-6">危険な操作</h2>
                 <div className="bg-red-100 border border-red-400 h-[130px] rounded-xl w-[1000px] ml-7 mt-5">
                     <p className="text-red-900 font-bold mt-4 ml-4">チームを削除</p>
@@ -134,6 +133,9 @@ export default function TeamSettings() {
                     </button>
                 </div>
             </div>
+            <button className="bg-blue-500 text-white rounded-lg w-[100px] h-[35px] mt-3 ml-[1005px]">
+                設定を保存
+            </button>
         </div>
     );
 }
