@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useRef, ChangeEvent } from 'react';
 import { User, Edit } from 'lucide-react';
 
 interface ProfileFormProps {
-  onSave: (data: any) => void;
-  onCancel: (data: any) => void;
+  onSave: (data: any, imageFile: File | null) => void;
+  onCancel: () => void;
   initialData?: {
     name: string;
     email: string;
@@ -27,18 +27,38 @@ export default function ProfileForm({ onSave, onCancel, initialData }: ProfileFo
     joinDate: initialData?.joinDate || '2022-04-01',
     bio: initialData?.bio || 'フルスタック開発者として5年の経験があります。React、Node.js、データベース設計が得意です。',
     github: initialData?.github || 'https://github.com/tanaka-taro',
-    linkedin: initialData?.linkedin || 'https://linkedin.com/in/tanaka-taro'
+    linkedin: initialData?.linkedin || 'https://linkedin.com/in/tanaka-taro',
   });
 
+  // 初期画像は指定のUnsplash画像URL
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>(
+    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=96&h=96&fit=crop&crop=face'
+  );
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleClickChangePhoto = () => {
+    fileInputRef.current?.click();
+  };
+
   const handleSave = () => {
-    onSave(formData);
+    onSave(formData, imageFile);
   };
 
   return (
@@ -59,15 +79,34 @@ export default function ProfileForm({ onSave, onCancel, initialData }: ProfileFo
           <div className="flex items-start gap-6 mb-8 pt-8">
             {/* Profile Photo */}
             <div className="flex flex-col items-center">
-              <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mb-3">
-                <User size={40} className="text-blue-600" />
+              <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mb-3 overflow-hidden">
+                {imagePreview ? (
+                  <img
+                    src={imagePreview}
+                    alt="プロフィール画像プレビュー"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <User size={40} className="text-blue-600" />
+                )}
               </div>
-              <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+              <button
+                type="button"
+                onClick={handleClickChangePhoto}
+                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+              >
                 写真を変更
               </button>
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                onChange={handleImageChange}
+                className="hidden"
+              />
             </div>
 
-            {/* Basic Info Form - 編集可能に戻す */}
+            {/* Basic Info Form */}
             <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">名前</label>
@@ -116,9 +155,7 @@ export default function ProfileForm({ onSave, onCancel, initialData }: ProfileFo
               </div>
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-2">入社日</label>
-                <div className="text-gray-900 py-2 px-3 rounded-lg">
-                  {formData.joinDate}
-                </div>
+                <div className="text-gray-900 py-2 px-3 rounded-lg">{formData.joinDate}</div>
               </div>
             </div>
           </div>
@@ -161,7 +198,7 @@ export default function ProfileForm({ onSave, onCancel, initialData }: ProfileFo
 
           {/* Save Button */}
           <div className="flex justify-end">
-            <button 
+            <button
               onClick={onCancel}
               className="px-6 py-2 text-gray-700 rounded-lg transition-colors font-medium mr-4 hover:text-black"
             >
