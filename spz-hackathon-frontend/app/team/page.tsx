@@ -1,4 +1,4 @@
-// app/page.tsx
+// app/team/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -15,8 +15,8 @@ export default function TeamPage() {
     <>
       {/* ページごとのタイトル・サブタイトル */}
       <PageHeader
-        title="ホーム"
-        subtitle="ダッシュボードやチーム情報を管理"
+        title="チーム"
+        subtitle="あなたのチーム情報とメンバーを管理"
       />
 
       {/* タブUI（共通コンポーネント） */}
