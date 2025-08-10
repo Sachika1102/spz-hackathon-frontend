@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { X } from "lucide-react";
-import TeamSettings from "./TeamSettings";
 
 type Member = {
   id: number;
@@ -138,26 +137,28 @@ export default function MemberList() {
                 alt={member.name}
                 className="w-12 h-12 rounded-full object-cover"
               />
-              <div
-                className={`absolute bottom-0 right-0 w-3 h-3 ${getStatusColor(
-                  member.status
-                )} border-2 border-white rounded-full`}
-              ></div>
             </div>
             <div>
               <h3 className="font-semibold text-gray-900">{member.name}</h3>
               <p className="text-sm text-gray-600">{member.role}</p>
             </div>
           </div>
-          <span
-            className={`text-xs px-2 py-1 rounded-full ${
-              member.status === "online"
-                ? "bg-green-100 text-green-700"
-                : "bg-gray-100 text-gray-600"
-            }`}
-          >
-            {getStatusText(member.status)}
-          </span>
+          <div className="flex items-center gap-2">
+            <div
+              className={`w-3 h-3 ${getStatusColor(
+                member.status
+              )} rounded-full`}
+            ></div>
+            <span
+              className={`text-xs rounded-full ${
+                member.status === "online"
+                  ? " text-green-700"
+                  : " text-gray-600"
+              }`}
+            >
+              {getStatusText(member.status)}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -253,7 +254,7 @@ export default function MemberList() {
 
       {/* モーダル */}
       {showModal && (
-        <div className="fixed inset-0 bg-[rgba(105,105,105,0.7)] flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md relative">
             <button
               onClick={() => setShowModal(false)}
@@ -274,8 +275,6 @@ export default function MemberList() {
               placeholder="example@company.com"
               className="w-full border rounded-lg px-3 py-2 mb-4"
             />
-
-
 
             <div className="flex justify-end gap-2">
               <button
@@ -305,7 +304,6 @@ export default function MemberList() {
           <span className="font-medium">Readdy</span>
         </div>
       </div>
-      <TeamSettings></TeamSettings>
     </div>
     
   );
