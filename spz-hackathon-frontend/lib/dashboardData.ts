@@ -17,19 +17,19 @@ export const teamChartDataByWeek: ChartData[] = [
     datasets: [
       {
         label: "総コミット数",
-        data: [6, 10, 14, 18, 22, 16, 10],
+        data: [3, 0, 0, 0, 3, 10, 6],
         borderColor: "#3b82f6",
         backgroundColor: "rgba(59,130,246,0.2)",
       },
       {
         label: "機能追加",
-        data: [4, 6, 8, 12, 14, 10, 6],
+        data: [3, 3, 5, 5, 0, 0, 0],
         borderColor: "#10b981",
         backgroundColor: "rgba(16,185,129,0.2)",
       },
       {
         label: "バグ修正",
-        data: [2, 4, 5, 6, 7, 5, 3],
+        data: [0, 0, 0, 0, 0, 2, 4],
         borderColor: "#f59e0b",
         backgroundColor: "rgba(245,158,11,0.2)",
       },

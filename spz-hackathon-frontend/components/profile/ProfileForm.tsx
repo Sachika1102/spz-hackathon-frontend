@@ -19,15 +19,15 @@ interface ProfileFormProps {
 
 export default function ProfileForm({ onSave, onCancel, initialData }: ProfileFormProps) {
   const [formData, setFormData] = useState({
-    name: initialData?.name || '田中 太郎',
-    email: initialData?.email || 'tanaka@example.com',
-    department: initialData?.department || 'エンジニアリング',
-    position: initialData?.position || 'シニアエンジニア',
-    location: initialData?.location || '東京都',
+    name: initialData?.name || '野月平 快士',
+    email: initialData?.email || 'k.notsukitaira.sys23@morijyobi.ac.jp',
+    department: initialData?.department || 'なし',
+    position: initialData?.position || '学生',
+    location: initialData?.location || '岩手県',
     joinDate: initialData?.joinDate || '2022-04-01',
-    bio: initialData?.bio || 'フルスタック開発者として5年の経験があります。React、Node.js、データベース設計が得意です。',
-    github: initialData?.github || 'https://github.com/tanaka-taro',
-    linkedin: initialData?.linkedin || 'https://linkedin.com/in/tanaka-taro',
+    bio: initialData?.bio || 'フルスタック開発者として2年の経験があります。React、Node.js、データベース設計が得意です。',
+    github: initialData?.github || 'https://github.com/notsukitaira',
+    linkedin: initialData?.linkedin || 'https://linkedin.com/in/notsukitaira',
   });
 
   // 初期画像は指定のUnsplash画像URL
@@ -154,7 +154,7 @@ export default function ProfileForm({ onSave, onCancel, initialData }: ProfileFo
                 />
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-2">入社日</label>
+                <label className="text-sm font-medium text-gray-700 mb-2">利用開始日</label>
                 <div className="text-gray-900 py-2 px-3 rounded-lg">{formData.joinDate}</div>
               </div>
             </div>
